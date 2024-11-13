@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Imgext</string>
+    <string name="image_to_text">Recognized Text</string>
+</resources>
