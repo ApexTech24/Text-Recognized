@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.taskkotech.imgext.databinding.ActivityMainBinding
 
@@ -32,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         private const val STORAGE_REQUEST_CODE=101
     }
     private var imageUri: Uri? =null
-    private lateinit var cameraPermission: Array<String>
-    private lateinit var storagePermission: Array<String>
 
     private lateinit var textRecognizer: TextRecognizer
 
@@ -49,18 +48,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //permission
 
-       /* cameraPermission= arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        storagePermission= arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)*/
-
-        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+       // textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        textRecognizer = TextRecognition.getClient(DevanagariTextRecognizerOptions.Builder().build())
 
         binding.uploadBTN.setOnClickListener {
             showInputImage()
         }
-
-       // recognizeTextFromImage()
     }
 
     private fun recognizeTextFromImage() {
@@ -91,19 +85,9 @@ class MainActivity : AppCompatActivity() {
             val id= menuItem.itemId
             if (id==1){
                 picImageCamera()
-                /*if (checkCameraPermission()){
-                    picImageCamera()
-                }else{
-                    requestCameraPermission()
-                }*/
             }
             else if (id==2){
                 pickImageGallery()
-                /*if (checkStoragePermission()){
-                    pickImageGallery()
-                }else{
-                    requestStoragePermission()
-                }*/
             }
             return@setOnMenuItemClickListener true
         }
@@ -149,25 +133,6 @@ class MainActivity : AppCompatActivity() {
                 showToast("Cancelled...!")
             }
         }
-
-   /* private fun checkStoragePermission(): Boolean{
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) && PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun checkCameraPermission(): Boolean{
-        val cameraResult = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) && PackageManager.PERMISSION_GRANTED
-        val storageResult = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) && PackageManager.PERMISSION_GRANTED
-
-        return cameraResult && storageResult
-    }
-
-    private fun requestStoragePermission(){
-        ActivityCompat.requestPermissions(this,storagePermission, STORAGE_REQUEST_CODE)
-    }
-
-    private fun requestCameraPermission(){
-        ActivityCompat.requestPermissions(this,cameraPermission, CAMERA_REQUEST_CODE)
-    }*/
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
